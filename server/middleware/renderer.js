@@ -26,5 +26,9 @@ export default (req, res, next) => {
         `<div id="root">${html}</div>`
       )
     );
+    console.log(htmlData.replace(
+      '<div id="root"></div>',
+      `<div id="root">${html}</div>`
+    ));
   });
 }

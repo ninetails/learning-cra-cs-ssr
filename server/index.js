@@ -1,5 +1,6 @@
 import path from 'path';
 import express from 'express';
+import Loadable from 'react-loadable';
 
 // we'll talk about this in a minute:
 import serverRenderer from './middleware/renderer';
@@ -11,7 +12,8 @@ const app = express();
 const router = express.Router();
 
 // root (/) should always serve our server rendered page
-router.use('*', serverRenderer);
+router.use('^/$', serverRenderer);
+router.use('^/index.html$', serverRenderer);
 
 // other static resources should just be served as they are
 router.use(express.static(
@@ -23,10 +25,12 @@ router.use(express.static(
 app.use(router);
 
 // start the app
-app.listen(PORT, (error) => {
-  if (error) {
-    return console.log('something bad happened', error);
-  }
+Loadable.preloadAll().then(() =>
+  app.listen(PORT, (error) => {
+    if (error) {
+      return console.log('something bad happened', error);
+    }
 
-  console.log("listening on " + PORT + "...");
-});
+    console.log("listening on " + PORT + "...");
+  })
+);
