@@ -3,8 +3,9 @@ import Loadable from 'react-loadable';
 import './App.css';
 
 const AsyncComponent = Loadable({
-  loader: () => import('./SomeComponent'),
-  loading: () => <div>loading...</div>
+  loader: () => import(/* webpackChunkName: "myNamedChunk" */ './SomeComponent'),
+  loading: () => <div>loading...</div>,
+  modules: ['myNamedChunk']
 });
 
 class App extends Component {
